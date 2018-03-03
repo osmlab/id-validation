@@ -1,0 +1,149 @@
+import _ from 'lodash';
+import {
+    geoMetersToLat,
+    geoMetersToLon
+} from './index';
+
+
+export function geoExtent(min, max) {
+    if (!(this instanceof geoExtent)) return new geoExtent(min, max);
+    if (min instanceof geoExtent) {
+        return min;
+    } else if (min && min.length === 2 && min[0].length === 2
+        && min[1].length === 2) {
+        this[0] = min[0];
+        this[1] = min[1];
+    } else {
+        this[0] = min        || [ Infinity,  Infinity];
+        this[1] = max || min || [-Infinity, -Infinity];
+    }
+}
+
+export function geoExtentFromBounds(mapBounds) {
+    return geoExtent([
+        [mapBounds.minlon, mapBounds.minlat],
+        [mapBounds.maxlon, mapBounds.maxlat]
+    ]);
+}
+
+geoExtent.prototype = new Array(2);
+
+_.extend(geoExtent.prototype, {
+
+    equals: function (obj) {
+        return this[0][0] === obj[0][0] &&
+            this[0][1] === obj[0][1] &&
+            this[1][0] === obj[1][0] &&
+            this[1][1] === obj[1][1];
+    },
+
+
+    extend: function(obj) {
+        if (!(obj instanceof geoExtent)) obj = new geoExtent(obj);
+        return geoExtent(
+            [Math.min(obj[0][0], this[0][0]), Math.min(obj[0][1], this[0][1])],
+            [Math.max(obj[1][0], this[1][0]), Math.max(obj[1][1], this[1][1])]
+        );
+    },
+
+
+    _extend: function(extent) {
+        this[0][0] = Math.min(extent[0][0], this[0][0]);
+        this[0][1] = Math.min(extent[0][1], this[0][1]);
+        this[1][0] = Math.max(extent[1][0], this[1][0]);
+        this[1][1] = Math.max(extent[1][1], this[1][1]);
+    },
+
+
+    area: function() {
+        return Math.abs((this[1][0] - this[0][0]) * (this[1][1] - this[0][1]));
+    },
+
+
+    center: function() {
+        return [(this[0][0] + this[1][0]) / 2,
+                (this[0][1] + this[1][1]) / 2];
+    },
+
+
+    rectangle: function() {
+        return [this[0][0], this[0][1], this[1][0], this[1][1]];
+    },
+
+
+    bbox: function() {
+        return {
+            minX: this[0][0],
+            minY: this[0][1],
+            maxX: this[1][0],
+            maxY: this[1][1]
+        };
+    },
+
+
+    polygon: function() {
+        return [
+            [this[0][0], this[0][1]],
+            [this[0][0], this[1][1]],
+            [this[1][0], this[1][1]],
+            [this[1][0], this[0][1]],
+            [this[0][0], this[0][1]]
+        ];
+    },
+
+
+    contains: function(obj) {
+        if (!(obj instanceof geoExtent)) obj = new geoExtent(obj);
+        return obj[0][0] >= this[0][0] &&
+               obj[0][1] >= this[0][1] &&
+               obj[1][0] <= this[1][0] &&
+               obj[1][1] <= this[1][1];
+    },
+
+
+    intersects: function(obj) {
+        if (!(obj instanceof geoExtent)) obj = new geoExtent(obj);
+        return obj[0][0] <= this[1][0] &&
+               obj[0][1] <= this[1][1] &&
+               obj[1][0] >= this[0][0] &&
+               obj[1][1] >= this[0][1];
+    },
+
+
+    intersection: function(obj) {
+        if (!this.intersects(obj)) return new geoExtent();
+        return new geoExtent(
+            [Math.max(obj[0][0], this[0][0]), Math.max(obj[0][1], this[0][1])],
+            [Math.min(obj[1][0], this[1][0]), Math.min(obj[1][1], this[1][1])]
+        );
+    },
+
+
+    percentContainedIn: function(obj) {
+        if (!(obj instanceof geoExtent)) obj = new geoExtent(obj);
+        var a1 = this.intersection(obj).area(),
+            a2 = this.area();
+
+        if (a1 === Infinity || a2 === Infinity || a1 === 0 || a2 === 0) {
+            return 0;
+        } else {
+            return a1 / a2;
+        }
+    },
+
+
+    padByMeters: function(meters) {
+        var dLat = geoMetersToLat(meters),
+            dLon = geoMetersToLon(meters, this.center()[1]);
+        return geoExtent(
+            [this[0][0] - dLon, this[0][1] - dLat],
+            [this[1][0] + dLon, this[1][1] + dLat]
+        );
+    },
+
+
+    toParam: function() {
+        return this.rectangle().join(',');
+    }
+
+});

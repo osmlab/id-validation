@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>iD</title>
+        <link rel='stylesheet' href='iD.css'>
+
+        <!-- mobile devices -->
+        <meta name='viewport' content='initial-scale=1.0 maximum-scale=1.0'>
+        <meta name='apple-mobile-web-app-capable' content='yes' />
+        <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+
+        <!--[if !IE]>-->
+        <script src='iD.js'></script>
+        <!--<![endif]-->
+    </head>
+    <body>
+        <div id='id-container'></div>
+        <script>
+            if (typeof iD == 'undefined' || !iD.Detect().support) {
+                document.getElementById('id-container').innerHTML = 'Sorry, your browser is not currently supported. Please use Potlatch 2 to edit the map.';
+                document.getElementById('id-container').className = 'unsupported';
+            } else {
+                var id = iD.Context();
+                id.ui()(document.getElementById('id-container'));
+            }
+        </script>
+    </body>
+</html>

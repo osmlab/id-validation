@@ -1,8 +1,6 @@
-# id-mystery-machine
+# id-validation
 
 A fork of iD with some extra features for validation, load/save of custom xml datasets, and review tools.
-
-![alt text](https://raw.githubusercontent.com/osmlab/id-mystery-machine/master/iD_2.3.0/docs/img/mystery-machine.gif)
 
 ## About
 This fork of the [iD editor](https://github.com/openstreetmap/iD) is designed to support loading machine-generated XML files and doing human editing/submission upon that. Some of these features may be useful to support the general iD mapping workflow for the whole OSM mapper community. We provide a brief introduction to these features below, as well as key code pointers. Surrounding changes in css, data, and relevant .js files can be inferred by following these key pointers.

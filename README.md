@@ -8,60 +8,60 @@ This fork of the [iD editor](https://github.com/openstreetmap/iD) is designed to
 ### Error detection on road features
 * Useful for preventing simple mistakes when editing roads.
 * Code pointers:
-  - modules/core/context.js : “function refillErrorList”
-  - modules/ui/inspector.js : “footer.selectAll('.footer-error-bar')”
-  - modules/ui/next_error.js
-  - modules/ui/previous_error.js
+  - [modules/core/context.js](iD_2.3.0/modules/core/context.js) : “function refillErrorList”
+  - [modules/ui/inspector.js](iD_2.3.0/modules/ui/inspector.js) : “footer.selectAll('.footer-error-bar')”
+  - [modules/ui/next_error.js](iD_2.3.0/modules/ui/next_error.js)
+  - [modules/ui/previous_error.js](iD_2.3.0/modules/ui/previous_error.js)
 
 ### Hot keys for changing road type
 * Useful for quick road type assignment.
 * Code pointers:
-  - modules/actions/change_tags_batch.js
-  - modules/operations/batch_road_tagging.js
+  - [modules/actions/change_tags_batch.js](iD_2.3.0/modules/actions/change_tags_batch.js)
+  - [modules/operations/batch_road_tagging.js](iD_2.3.0/modules/operations/batch_road_tagging.js)
 
 ### 'No fill' option that disables rendering of all map features
 * Useful for purely checking what's on satellite imagery.
 * Code pointers:
-  - modules/ui/map_data.js : “fills = \['none'”
+  - [modules/ui/map_data.js](iD_2.3.0/modules/ui/map_data.js) : “fills = \['none'”
 
 ### Option for only load data within a bounding box
 * Useful for mapping a bounding-box task from Tasking Manager. It also draws grids within the area to map.
 * Code pointers:
-  - modules/renderer/map.js : “function drawMapBounds”
-  - modules/core/context.js : “context.editInBoundsMode = function”
-  - modules/services/osm.js : “loadInBounds: function”
-  - modules/ui/background.js : “function drawGridsOptionList”
-  - modules/ui/gridfocus.js
+  - [modules/renderer/map.js](iD_2.3.0/modules/renderer/map.js) : “function drawMapBounds”
+  - [modules/core/context.js](iD_2.3.0/modules/core/context.js) : “context.editInBoundsMode = function”
+  - [modules/services/osm.js](iD_2.3.0/modules/services/osm.js) : “loadInBounds: function”
+  - [modules/ui/background.js](iD_2.3.0/modules/ui/background.js) : “function drawGridsOptionList”
+  - [modules/ui/gridfocus.js](iD_2.3.0/modules/ui/gridfocus.js)
 
 ### Loop through imagery with 'CMD + B'
 * Useful for quickly switching background imagery.
 * Code pointers:
-  - modules/ui/background.js : “.on(uiCmd('\u2318' + key), rotateBackgroundSource)”
+  - [modules/ui/background.js](iD_2.3.0/modules/ui/background.js) : “.on(uiCmd('\u2318' + key), rotateBackgroundSource)”
 
 ### Hot key to highlight currently edited roads
 * Useful for checking which roads have been changed.
 * Code pointers:
-  - modules/core/history.js : “newGraph = autoTagging(prevGraph, newGraph)”
-  - modules/svg/tag_classes.js : “classes += ' tag-edited'”
-  - modules/ui/map_data.js : “function toggleHighlightEdited”
-  - data/discarded.json : “edited”
+  - [modules/core/history.js](iD_2.3.0/modules/core/history.js) : “newGraph = autoTagging(prevGraph, newGraph)”
+  - [modules/svg/tag_classes.js](iD_2.3.0/modules/svg/tag_classes.js) : “classes += ' tag-edited'”
+  - [modules/ui/map_data.js](iD_2.3.0/modules/ui/map_data.js) : “function toggleHighlightEdited”
+  - [data/discarded.js](iD_2.3.0/data/discarded.js) on : “edited”
 
 ### Show negative road ID in lower-left corner and support search on negative feature ID
 * Useful for road searching.
 * Code pointers:
-  - modules/behavior/hash.js : “var selected = context.selectedIDs”
-  - modules/core/context.js : “context.zoomToEntity = function”
-  - modules/ui/feature_list.js : “var idMatch = q.match”
-  - modules/ui/view_on_osm.js : “if (entity.isNew())”
+  - [modules/behavior/hash.js](iD_2.3.0/modules/behavior/hash.js) : “var selected = context.selectedIDs”
+  - [modules/core/context.js](iD_2.3.0/modules/core/context.js) : “context.zoomToEntity = function”
+  - [modules/ui/feature_list.js](iD_2.3.0/modules/ui/feature_list.js) : “var idMatch = q.match”
+  - [modules/ui/view_on_osm.js](iD_2.3.0/modules/ui/view_on_osm.js) : “if (entity.isNew())”
 
 ### Save current data in graph to local file
 * Useful for generating offline XML files.
 * Code pointers:
-  - modules/core/context.js : “context.genXMLStringFromGraph = function”
-  - modules/ui/save_local.js
+  - [modules/core/context.js](iD_2.3.0/modules/core/context.js) : “context.genXMLStringFromGraph = function”
+  - [modules/ui/save_local.js](iD_2.3.0/modules/ui/save_local.js)
 
 ### Keeping positive nodes on positive ways on connect/disconnect
 * Useful for reducing unnecessary updates sent to OSM server.
 * Code pointers:
-  - modules/actions/connect.js : “if (lastNid[1] === '-') {”
-  - modules/actions/disconnect.js : “if (nodeId[1] !== '-' && candidates.length > 1”
+  - [modules/actions/connect.js](iD_2.3.0/modules/actions/connect.js) : “if (lastNid[1] === '-') {”
+  - [modules/actions/disconnect.js](iD_2.3.0/modules/actions/disconnect.js) : “if (nodeId[1] !== '-' && candidates.length > 1”
